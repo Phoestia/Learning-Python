@@ -1,0 +1,46 @@
+#Euclidean Distance
+import math
+#impot numpy as np # need install numpy
+def euclidean_distance(x,y):
+    dist=0
+#    for  (x,y) in zip (x,y):
+    dist += (x-y) **2
+    distance = dist ** 0.5
+#    print (distance)
+    print ('The Euclidean distance from %.1f to %.1f is %.1f'%(x,y,distance))
+#print (euclidean_distance(x,y))
+
+print ('Test')
+#euclidean_distance(3.2,-4.3)
+#euclidean_distance(5,8)
+#euclidean_distance(7,0)
+#euclidean_distance(1,21.1)
+
+x=[3.2, 5, 7, 1]
+y=[-4.3, 8, 0, 21.1]
+for (x,y) in zip (x, y):
+    euclidean_distance(x,y)
+
+x=[1, 5]
+y=[2,-3]
+for (x,y) in zip (x, y):
+    euclidean_distance(x,y)
+
+#Manhattan Distance
+
+def manhattan_distance (x,y):
+    dist=0
+    dist+=abs(x-y)
+    distance=dist
+#    print (distance)
+    print ('The Manhattan distance from %.1f to %.1f is %.1f'%(x,y,distance))
+
+x=[3.2, 5, 7, 1]
+y=[-4.3, 8, 0, 21.1]
+for (x,y) in zip (x, y):
+    manhattan_distance(x,y)
+
+x=[1, 5]
+y=[2,-3]
+for (x,y) in zip (x, y):
+    manhattan_distance(x,y)
