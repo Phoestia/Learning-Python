@@ -1,4 +1,3 @@
-'''
 ##1.Write a program that reads words.txt and prints only the words with more than 20 characters
 #(not counting whitespace).
 fin = open('words.txt')
@@ -10,7 +9,7 @@ for line in fin:
 
 
 ##2.Write a function called has_no_e that returns True if the given word
-#doesn�t have the letter �e� in it.
+#doesnt have the letter e in it.
 
 fin = open('words.txt','r')
 i = 0
@@ -130,7 +129,7 @@ else:
 # this code did not work well for me because this print every line of results and count as "if any letter in string fit word will give a true return and print the line'
 # still trying to figure out... 
     
-'''
+
 # 2nd way
 with open ('words.txt', 'r') as fd:
     word_list = fd.read().split()
@@ -151,14 +150,13 @@ def find_uses_all_vowels(list):
         return count
 print (find_uses_all_vowels(word_list))
 #this solution was found on @epequeno 's github, wors well, 'https://github.com/epequeno/ThinkPy-Solutions/blob/master/ch09/9.05.py'
-'''
 
-
-
-
-
-
-
-
-
-
+##5.Write a function called is_abecedarian that returns True if the letters in a word appear in
+#alphabetical order (double letters are ok). How many abecedarian words are there?
+with open ('words.txt', 'r') as fd:
+    word_list=fd.read().split()
+def is_abecedarian(word):
+    return word==''.join(sorted(word))
+words=[word for word in word_list if is_abecedarian(word)]
+print "there are {} abecedarian words.".format(len(words))
+#Ref: https://github.com/epequeno/ThinkPy-Solutions/blob/master/ch09/9.06.py
