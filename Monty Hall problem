@@ -1,0 +1,123 @@
+import numpy as np
+die1 = np.random.randint(1, 7) #number 1 to 6
+die2 = np.random.randint(1, 7)
+print (die1, die2)
+import numpy as np
+die1 = np.random.randint(1, 7) #number 1 to 6
+die2 = np.random.randint(1, 7)
+print (die1, die2)
+(6, 3)
+In [2]:
+
+from collections import Counter
+def throw_die(number_of_throws):
+    return np.random.randint(1, 7, number_of_throws)
+die_500=throw_die(500)
+print Counter(die_500)
+#print throw_die(3)
+Counter({3: 89, 5: 87, 6: 83, 4: 81, 1: 80, 2: 80})
+In [3]:
+
+from collections import Counter
+import pandas as pd
+from pandas import DataFrame
+import matplotlib.pyplot as plt
+plt.figure()
+Counter(die_500).plot.hist(alpha=0.5, bins=6)
+plt.show()
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+<ipython-input-3-5895af688b78> in <module>()
+      4 import matplotlib.pyplot as plt
+      5 plt.figure()
+----> 6 Counter(die_500).plot.hist(alpha=0.5, bins=6)
+      7 plt.show()
+
+AttributeError: 'Counter' object has no attribute 'plot'
+
+In [4]:
+
+import pandas as pd
+from pandas import DataFrame
+import matplotlib.pyplot as plt
+​
+n = 500
+bunch_of_rolls = DataFrame(np.column_stack([throw_die(n), throw_die(n)]), columns=["Die1", "Die2"])
+plt.figure()
+bunch_of_rolls.plot.hist(alpha=0.5, bins=6)
+plt.show()
+<matplotlib.figure.Figure at 0x44e0860>
+<matplotlib.figure.Figure at 0x40a9400>
+
+#Question 2.28: Socks in a drawer. In your sock drawer you have 4 blue, 5 gray, and 3 black socks. Half asleep one morning you grab 2 socks at random and put them on. Find the probability you end up wearing (a) 2 blue socks (b) no gray socks (c) at least 1 black sock (d) a green sock (e) matching socks
+
+blue=4
+gray=5
+black=3
+total=blue+gray+black=12
+a) p(2blue)=(4/12)x(4/12）=1/9
+b) p(nogray)=(7/12)*(7/12)=49/144
+c) p(1black)=3/12=1/4
+d) p(1green)=0
+e) p(pair)=p(2blue)+p(2gray)+p(2black)=(4/12)^2+(5/12)^2+(3/12)^2=50/144
+#Question 2.34: Ace of clubs wins. Consider the following card game with a well-shuffled deck of cards. If you draw a red card, you win nothing. If you get a spade, you win 5.Foranyclub,youwin5.Foranyclub,youwin10 plus an extra $20 for the ace of clubs. (a) Create a probability model for the amount you win at this game. Also, find the expected winnings for a single game and the standard deviation of the winnings. (b) What is the maximum amount you would be willing to pay to play this game? Explain your reasoning.
+
+a) X = amount you can win at this game (# of dollars you can win)
+x = (0, 5, 10, 20)
+P(winnothing) =26/52
+P(win$5) = 13/52
+P(win$10) = 12/52 
+P(win$20) = 1/52
+Expected winnings = mean = μμ = E[X] = ∑X * P = (0 * 26/52) + (5 * 13/52) + (10 * 12/52) + (20 * 1/52)≈ 3.94
+​
+Standard Deviation=√σ=√((0−205/52)2∗(26/52)+(5−205/52)2∗(13/52)+(10−205/52)2∗(12/52)+(20−205/52)2∗(1/52))≈4.6
+​
+b) $5, the distribution shows half chance to win.The expected win is 3.94 or 5 ± 4.6 or 5.
+#Question 2.40: European roulette. The game of European roulette involves spinning a wheel with 37 slots: 18 red, 18 black, and 1 green. A ball is spun onto the wheel and will eventually land in a slot, where each slot has an equal chance of capturing the ball. Gamblers can place bets on red or black. If the ball lands on their color, they double their money. If it lands on another color, they lose their money. (a) Suppose you play roulette and bet 3onasingleround.Whatistheexpectedvalueandstandarddeviationofyourtotalwinnings?(b)Supposeyoubet3onasingleround.Whatistheexpectedvalueandstandarddeviationofyourtotalwinnings?(b)Supposeyoubet1 in three different rounds. What is the expected value and standard deviation of your total winnings? (c) How do your answers to parts (a) and (b) compare? What does this say about the riskiness of the two games?
+
+a)
+Event   X   P(X)    X * P(X)
+No checked bag  0   .54 0
+1 checked bag   $25 .34 8.5
+2 checked bags  $60 .12 7.2
+E(X) = 15.7
+Answer to 2.40 (a) part 1: average revenue per passenger = $15.70
+​
+σ2=(0−15.7)2∗.54+(25−15.7)2∗.34+(60−15.7)2∗.12σ2=(0−15.7)2∗.54+(25−15.7)2∗.34+(60−15.7)2∗.12 = 133.1 + 29.4 + 235.5 = 398
+​
+Standard Deviation = σ=√σ2=√398≈19.95
+​
+​
+b)revenue = 120 * $15.70 = $1,884 ±± $20 (or 19.95 rounded up)
+​
+Part 2. Write Python or R code to solve the Monty Hall problem. Simulate at least a thousand games using three doors for each strategy and show the results in such a way as to make it easy to compare the effects of each strategy.
+In [5]:
+
+import random
+​
+DOORS = (1,2,3)
+​
+def hallpicker(strategy):
+    car = random.choice(DOORS)
+    firstchoice = random.choice(DOORS)
+    if strategy == 'stay':
+        return firstchoice == car
+    elif strategy == 'switch':
+        hostchoice = random.choice([x for x in DOORS if x != firstchoice and x != car])
+        secondchoice = [x for x in DOORS if x != firstchoice and x != hostchoice]
+        assert len(secondchoice) == 1
+        return secondchoice[0] == car
+    else:
+        raise ValueError
+​
+def counter(strategy, n=10000):
+    return sum(hallpicker(strategy) for i in xrange(n))/float(n)
+​
+if __name__ == "__main__":
+    print "stay:", counter('stay')
+    print "switch:", counter('switch')
+stay: 0.3392
+switch: 0.6664
+In [ ]:
+
+​
