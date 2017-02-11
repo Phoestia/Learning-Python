@@ -1,0 +1,138 @@
+# 3.8 CAPM. The Capital Asset Pricing Model (CAPM) is a financial model that assumes returns on a portfolio are normally distributed. Suppose a portfolio has an average annual return of 14.7% (i.e. an average gain of 14.7%) with a standard deviation of 33%. A return of 0% means the value of the portfolio doesn’t change, a negative return means that the portfolio loses money, and a positive return means that the portfolio gains money.
+a)What percent of years does this portfolio lose money, i.e. have a return less than 0%? 
+In [1]:
+
+pnorm (q=0, mean=0.147, sd=0.33)
+0.3279956507032
+
+b)What is the cutoff for the highest 15% of annual returns with this portfolio?
+In [3]:
+
+qnorm (0.85, mean=0.147, sd=0.33)
+0.48902301853295
+In [4]:
+
+1-pnorm (85, 14.7, 33)
+0.0165733017712928
+
+3.17 Scores on stats final. Below are final exam scores of 20 Introductory Statistics students. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+57, 66, 69, 71, 72, 73, 74, 77, 78, 78, 79, 79, 81, 81, 82, 83, 83, 88, 89, 94
+(a) The mean score is 77.7 points. with a standard deviation of 8.44 points. Use this information to determine if the scores approximately follow the 68-95-99.7% Rule.
+(b) Do these data appear to follow a normal distribution? Explain your reasoning using the graphs provided below.
+In [5]:
+
+stats.scores <- c(57, 66, 69, 71, 72, 73, 74, 77, 78, 78, 79, 79, 81, 81, 82, 83, 83, 88, 89, 94)
+In [6]:
+
+#68% of 20 tests is about 14 tests.
+min.68 <- stats.scores[4]
+max.68 <- stats.scores[17]
+​
+min.68
+71
+In [7]:
+
+qnorm(p=0.34, mean=77.7, sd=8.44)
+74.2188111875145
+In [8]:
+
+max.68
+83
+In [9]:
+
+qnorm(p=0.76, mean=77.7, sd=8.44)
+83.6611936303703
+In [10]:
+
+min.95 <- stats.scores[1]
+max.95 <- stats.scores[20]
+​
+min.95
+57
+In [11]:
+
+qnorm(p=0.05, mean=77.7, sd=8.44)
+63.8174353885296
+In [12]:
+
+max.95
+94
+In [13]:
+
+qnorm(p=0.95, mean=77.7, sd=8.44)
+91.5825646114704
+
+14/20=70% are within 1SD. Within 2SD: 19/20=95%. Within 3SD: 20/20=100%. They follow this rule closely.
+
+There are insufficient data points to test the 99.7% part of the rule. But at 68% and 95%, the data looks to conform fairly well. The value at 5% was not a terribly close match, but we can probably attribute this to small sample size.
+
+Data distributes nearly normal, there is only one possible outlier at the bottom.
+
+3.31 Game of dreidel. A dreidel is a four-sided spinning top with the Hebrew letters nun, gimel, hei, and shin, one on each side. Each side is equally likely to come up in a single spin of the dreidel. Suppose you spin a dreidel three times. Calculate the probability of getting
+(a) at least one nun?
+In [14]:
+
+pbinom(q=1, size=3, prob=0.25, lower.tail=FALSE)
+0.15625
+
+(b) exactly 2 nuns?
+In [15]:
+
+dbinom(x=2, size=3, prob=0.25)
+0.140625
+
+(c) exactly 1 hei?
+In [16]:
+
+dbinom(x=1, size=3, prob=0.25)
+0.421875
+
+(d) at most 2 gimels?
+In [17]:
+
+pbinom(q=2, size=3, prob=0.25)
+0.984375
+
+3.41 Sampling at school. For a sociology class project you are asked to conduct a survey on 20 students at your school. You decide to stand outside of your dorm’s cafeteria and conduct the survey on a random sample of 20 students leaving the cafeteria after dinner one evening. Your dorm is comprised of 45% males and 55% females.
+(a) Which probability model is most appropriate for calculating the probability that the 4th person you survey is the 2nd female? Explain.
+
+The negative binomial, which can return a probability for an expected number of failures and successes, in any order. One of those orders is with the last trial being a success.
+
+(b) Compute the probability from part (a).
+In [18]:
+
+dnbinom(x=2, size=2, prob=0.55)
+0.18376875
+
+(c) The three possible scenarios that lead to 4th person you survey being the 2nd female are
+{M,M,F,F},{M,F,M,F},{F,M,M,F}
+One common feature among these scenarios is that the last trial is always female. In the first three trials there are 2 males and 1 female. Use the binomial coefficient to confirm that there are 3 ways of ordering 2 males and 1 female.
+In [19]:
+
+n <- 4
+k <- 2
+choose(n-1, k-1)
+3
+
+(d) Use the findings presented in part (c) to explain why the formula for the coefficient for the negative binomial is  n−1  while the formula for the binomial coefficient is  n .
+
+The last trial in the negative binomial is always a success so we do not need to consider it in determining the number of outcomes. It does not vary. It is always a success.
+
+3.44 Stenographer’s typos, Part I. A very skilled court stenographer makes one typographical error (typo) per hour on average.
+(a) What probability distribution is most appropriate for calculating the probability of a given number of typos this stenographer makes in an hour?
+
+Poisson with λ = 1.
+
+(b) What are the mean and the standard deviation of the number of typos this stenographer makes?
+
+µ = λ = 1, σ =√λ = 1.
+
+(c) Would it be considered unusual if this stenographer made 4 typos in a given hour?
+
+(1-4)/1=3 Since 4 typos is more than 2 standard deviations above the mean, this would be considered an unusually high number of typos for this stenographer.
+
+(d) Calculate the probability that this stenographer makes at most 2 typos in a given hour.
+In [21]:
+
+dpois(0,lambda=1) + dpois(1,lambda=1) + dpois(2,lambda=1)
+0.919698602928606
