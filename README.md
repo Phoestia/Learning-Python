@@ -1,2 +1,1 @@
-# Learning-Python
-Notes and Practice during learning Python
+Projects done in either python or jupyternotebook
